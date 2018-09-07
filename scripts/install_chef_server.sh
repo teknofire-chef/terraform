@@ -1,13 +1,14 @@
 #!/bin/bash
-usage="Usage: $(basename "$0") ADMIN_PASSWORD [VERSION]"
+usage="Usage: $(basename "$0") ADMIN_EMAIL ADMIN_PASSWORD [VERSION]"
 
-admin_password=$1
-package_version=$2
+admin_email=$1
+admin_password=$2
+package_version=$3
 if [ -n "${package_version}" ]; then
   package_version="latest"
 fi
 
-if [[ $# -lt 1 ]]; then
+if [[ $# -lt 2 ]]; then
   echo "$usage"
   echo "Missing command argument"
   exit 1
@@ -35,10 +36,10 @@ fi
 
 
 # create admin user and organization
-if [ ! $(sudo chef-server-ctl user-list | grep teknofire) ]; then
+if [ ! $(sudo chef-server-ctl user-list | grep chefadmin) ]; then
   echo "Creating chef admin user and tekno organization..."
-  chef-server-ctl user-create teknofire will fisher will@teknofire.net $admin_password --filename /drop/teknofire.pem
-  chef-server-ctl org-create tekno "Tekno, Inc." --association_user teknofire --filename default-validator.pem
+  chef-server-ctl user-create chefadmin chef admin $admin_email $admin_password --filename /drop/chefadmin.pem
+  chef-server-ctl org-create tekno "TeknoFire" --association_user chefadmin --filename default-validator.pem
 fi
 
 # configure manage jobs
