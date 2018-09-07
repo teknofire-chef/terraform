@@ -43,6 +43,10 @@ variable "chef_server_version" {
   default = "latest"
 }
 
+variable "admin_email" {
+  description = "Email for chef admin user"
+}
+
 variable "chef_password" {
   description = "Password for chef_user"
 }

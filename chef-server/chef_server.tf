@@ -40,7 +40,7 @@ resource "null_resource" "chef_server" {
     inline = [
       "bash /tmp/set_tags.sh ${var.aws_region} ${aws_spot_instance_request.chef_server.id} ${aws_spot_instance_request.chef_server.spot_instance_id}",
       "chmod +x /tmp/install_chef_server.sh",
-      "sudo /tmp/install_chef_server.sh ${var.chef_password} ${var.chef_server_version}",
+      "sudo /tmp/install_chef_server.sh ${var.admin_email} ${var.chef_password} ${var.chef_server_version}",
       "rm /tmp/set_tags.sh /tmp/install_chef_server.sh"
     ]
   }
